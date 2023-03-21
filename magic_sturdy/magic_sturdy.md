@@ -42,6 +42,10 @@ See the [README](../README.md) for an overview on how the `magic` key works.
 
 The `repeat` key simply repeats any other previous key. For example `L` `repeat` outputs `L` `L`.
 
+## QMK Implementation
+
+I have added the implementation of Magic Sturdy that I use. The keymap file is for a ZSA moonlander, but the code trivially generalizes to any keyboard. However, it does rely on a pending QMK feature that is still an open PR. You will need to use the PR's branch to compile this code. Here is the PR: https://github.com/qmk/qmk_firmware/pull/19700
+
 ## Goals
 
 Magic Sturdy is a minor but powerful variation of the already excellent STRD1 layout that @O-X-E-Y
