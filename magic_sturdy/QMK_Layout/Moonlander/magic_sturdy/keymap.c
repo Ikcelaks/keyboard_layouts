@@ -20,9 +20,10 @@
 #define MOON_LED_LEVEL LED_LEVEL
 
 #define C_MAGIC QK_AREP
-#define C_GUI_EQL LGUI_T(KC_EQL)
+#define C_GUI_ESC LGUI_T(KC_ESC)
 #define C_RSFT_ENT RSFT_T(KC_ENT)
 #define C_LALT_ENT LALT_T(KC_ENT)
+#define C_RCTL_MINS RCTL_T(KC_MINS)
 
 enum layers {
     BASE,
@@ -32,7 +33,9 @@ enum layers {
 };
 
 enum custom_keycodes {
-  MK_DUND = SAFE_RANGE,
+  C_MAG_2 = SAFE_RANGE,
+  C_MAG_3,
+  MK_DUND,
   MG_ENT,
   MG_MENT,
   MG_ER,
@@ -45,17 +48,17 @@ enum custom_keycodes {
   MG_THE,
   MG_EFORE,
   MG_HICH,
-  MG_UESTION,
+  MG_MLATIV,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[BASE] = LAYOUT_moonlander(
-        KC_EQL,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_LPRN,                                        KC_RPRN,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPC,
+        KC_DOT,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_EQL,                                         KC_ASTR,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPC,
         KC_DEL,         KC_V,           KC_M,           KC_L,           KC_C,           KC_P,           KC_DQUO,                                        KC_PIPE,        KC_B,           C_MAGIC,        KC_U,           KC_O,           KC_COMM,        KC_BSLS,
-        LCTL(KC_BSPC),  KC_S,           KC_T,           KC_R,           KC_D,           KC_Y,           KC_Q,                                           KC_DLR,         KC_F,           KC_N,           KC_E,           KC_A,           KC_I,           C_GUI_EQL,
-        KC_LSFT,        KC_X,           KC_K,           KC_J,           KC_G,           KC_W,                                                                           KC_Z,           KC_H,           KC_MINS,        KC_SLSH,        KC_DOT,         C_RSFT_ENT,
-        LT(SYMB,KC_GRV), KC_LCTL,       KC_LGUI,        KC_ESC,         TT(NAVI),                       C_LALT_ENT,                                     RCTL_T(KC_QUOT),                C_S_T(KC_ESC),  KC_LALT,        KC_LBRC,        TT(MDIA),       TT(SYMB),
-                                                                        KC_SPC,         KC_TAB,         KC_BSPC,                                        OSL(SYMB),      QK_REP,         OSM(MOD_LSFT)
+        LCTL(KC_BSPC),  KC_S,           KC_T,           KC_R,           KC_D,           KC_Y,           KC_Q,                                           KC_DLR,         KC_F,           KC_N,           KC_E,           KC_A,           KC_I,           C_RCTL_MINS,
+        KC_LSFT,        KC_X,           KC_K,           KC_J,           KC_G,           KC_W,                                                                           KC_Z,           KC_H,           KC_QUOT,        KC_QUES,        KC_DOT,         C_RSFT_ENT,
+        LT(SYMB,KC_GRV), KC_LCTL,       KC_LGUI,        KC_ESC,         TT(NAVI),                       C_LALT_ENT,                                     C_GUI_ESC,                     C_S_T(KC_SLSH),  KC_LALT,        KC_LBRC,        TT(MDIA),       TT(SYMB),
+                                                                        KC_SPC,         KC_TAB,         KC_BSPC,                                        OSL(SYMB),      OSM(MOD_LSFT),      QK_REP
     ),
 	[SYMB] = LAYOUT_moonlander(
         _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, _______, _______, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
@@ -83,12 +86,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-const uint16_t PROGMEM combo0[] = { KC_MINS, KC_H, COMBO_END};
-const uint16_t PROGMEM combo1[] = { KC_J, KC_G, COMBO_END};
+const uint16_t PROGMEM combo_LB_IM[] = { KC_J, KC_G, COMBO_END};
+const uint16_t PROGMEM combo_LB_MR[] = { KC_K, KC_J, COMBO_END};
+const uint16_t PROGMEM combo_LB_RP[] = { KC_X, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_RB_IM[] = { KC_H, KC_QUOT, COMBO_END};
+const uint16_t PROGMEM combo_RB_MR[] = { KC_QUOT, KC_QUES, COMBO_END};
+const uint16_t PROGMEM combo_RB_RP[] = { KC_QUES, KC_DOT, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-    COMBO(combo0, KC_SCLN),
-    COMBO(combo1, KC_COLN)
+    COMBO(combo_LB_IM, KC_COLN),
+    COMBO(combo_LB_MR, C_MAG_2),
+    COMBO(combo_LB_RP, C_MAG_3),
+    COMBO(combo_RB_IM, KC_SCLN),
+    COMBO(combo_RB_MR, C_MAG_2),
+    COMBO(combo_RB_RP, C_MAG_3),
 };
 
 extern rgb_config_t rgb_matrix_config;
@@ -97,66 +108,53 @@ void keyboard_post_init_user(void) {
   rgb_matrix_enable();
 }
 
+bool get_repeat_key_eligible(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        // Ignore Custom Magic Keys
+        case C_MAG_2:
+        case C_MAG_3:
+        // Ignore MO, TO, TG, and TT layer switch keys.
+        case QK_MOMENTARY ... QK_MOMENTARY_MAX:
+        case QK_TO ... QK_TO_MAX:
+        case QK_TOGGLE_LAYER ... QK_TOGGLE_LAYER_MAX:
+        case QK_LAYER_TAP_TOGGLE ... QK_LAYER_TAP_TOGGLE_MAX:
+        // Ignore mod keys.
+        case KC_LCTL ... KC_RGUI:
+        case KC_HYPR:
+        case KC_MEH:
+            // Ignore one-shot keys.
+#ifndef NO_ACTION_ONESHOT
+        case QK_ONE_SHOT_LAYER ... QK_ONE_SHOT_LAYER_MAX:
+        case QK_ONE_SHOT_MOD ... QK_ONE_SHOT_MOD_MAX:
+#endif // NO_ACTION_ONESHOT
+            return false;
 
-// const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
-//     [0] = { {41,255,255}, {0,245,245}, {0,245,245}, {188,255,255}, {188,255,255}, {74,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {188,255,255}, {74,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {252,255,232}, {74,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {252,255,232}, {74,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {188,255,255}, {74,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {219,255,255}, {219,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {0,245,245}, {41,255,255}, {0,245,245}, {219,255,255}, {219,255,255}, {188,255,255}, {188,255,255}, {74,255,255}, {219,255,255}, {131,255,255}, {219,255,255}, {188,255,255}, {74,255,255}, {131,255,255}, {131,255,255}, {219,255,255}, {188,255,255}, {74,255,255}, {131,255,255}, {131,255,255}, {219,255,255}, {188,255,255}, {74,255,255}, {219,255,255}, {131,255,255}, {131,255,255}, {41,255,255}, {74,255,255}, {131,255,255}, {131,255,255}, {131,255,255}, {219,255,255}, {219,255,255}, {219,255,255}, {188,255,255}, {188,255,255}, {41,255,255}, {188,255,255} },
+            // Ignore hold events on tap-hold keys.
+#ifndef NO_ACTION_TAPPING
+        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
+#    ifndef NO_ACTION_LAYER
+        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+#    endif // NO_ACTION_LAYER
+            if (record->tap.count == 0) {
+                return false;
+            }
+            break;
+#endif // NO_ACTION_TAPPING
 
-//     [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {152,255,255}, {219,255,255}, {219,255,255}, {219,255,255}, {219,255,255}, {152,255,255}, {219,255,255}, {219,255,255}, {219,255,255}, {0,0,0}, {152,255,255}, {188,255,255}, {188,255,255}, {188,255,255}, {0,0,0}, {152,255,255}, {188,255,255}, {188,255,255}, {188,255,255}, {0,0,0}, {152,255,255}, {219,255,255}, {219,255,255}, {219,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {152,255,255}, {152,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {152,255,255}, {219,255,255}, {219,255,255}, {219,255,255}, {41,255,255}, {152,255,255}, {74,255,255}, {74,255,255}, {74,255,255}, {219,255,255}, {152,255,255}, {74,255,255}, {74,255,255}, {74,255,255}, {219,255,255}, {152,255,255}, {74,255,255}, {74,255,255}, {74,255,255}, {74,255,255}, {152,255,255}, {252,255,232}, {252,255,232}, {219,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+#ifdef SWAP_HANDS_ENABLE
+        case QK_SWAP_HANDS ... QK_SWAP_HANDS_MAX:
+            if (IS_SWAP_HANDS_KEYCODE(keycode) || record->tap.count == 0) {
+                return false;
+            }
+            break;
+#endif // SWAP_HANDS_ENABLE
+    }
 
-//     [2] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {152,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {152,255,255}, {152,255,255}, {0,0,0}, {188,255,255}, {0,0,0}, {0,0,0}, {152,255,255}, {0,0,0}, {188,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {234,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {234,255,255}, {41,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {234,255,255}, {41,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {41,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {74,255,255}, {0,0,0}, {0,0,0}, {0,0,0} },
-
-//     [3] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {188,255,255}, {219,255,255}, {41,255,255}, {0,0,0}, {0,0,0}, {188,255,255}, {219,255,255}, {74,255,255}, {0,0,0}, {0,0,0}, {41,255,255}, {219,255,255}, {74,255,255}, {0,0,0}, {0,0,0}, {74,255,255}, {219,255,255}, {41,255,255}, {0,0,0}, {0,0,0}, {188,255,255}, {188,255,255}, {74,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {41,255,255}, {0,245,245}, {0,0,0}, {0,0,0}, {0,0,0}, {234,255,255}, {252,255,232}, {0,245,245}, {0,0,0}, {0,0,0}, {252,255,232}, {252,255,232}, {0,0,0}, {0,0,0}, {0,0,0}, {234,255,255}, {252,255,232}, {0,245,245}, {0,0,0}, {0,0,0}, {234,255,255}, {234,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
-
-// };
-
-// void set_layer_color(int layer) {
-//   for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-//     HSV hsv = {
-//       .h = pgm_read_byte(&ledmap[layer][i][0]),
-//       .s = pgm_read_byte(&ledmap[layer][i][1]),
-//       .v = pgm_read_byte(&ledmap[layer][i][2]),
-//     };
-//     if (!hsv.h && !hsv.s && !hsv.v) {
-//         rgb_matrix_set_color( i, 0, 0, 0 );
-//     } else {
-//         RGB rgb = hsv_to_rgb( hsv );
-//         float f = (float)rgb_matrix_config.hsv.v / UINT8_MAX;
-//         rgb_matrix_set_color( i, f * rgb.r, f * rgb.g, f * rgb.b );
-//     }
-//   }
-// }
-
-// void rgb_matrix_indicators_user(void) {
-//   if (keyboard_config.disable_layer_led) { return; }
-//   switch (biton32(layer_state)) {
-//     case 0:
-//       set_layer_color(0);
-//       break;
-//     case 1:
-//       set_layer_color(1);
-//       break;
-//     case 2:
-//       set_layer_color(2);
-//       break;
-//     case 3:
-//       set_layer_color(3);
-//       break;
-//    default:
-//     if (rgb_matrix_get_flags() == LED_FLAG_NONE)
-//       rgb_matrix_set_color_all(0, 0, 0);
-//     break;
-//   }
-// }
+    return true;
+}
 
 uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     switch (keycode) {
-        case KC_DQUO:
-        case KC_LPRN:
-        case KC_SPC:
-        case KC_ENT:
-        case C_LALT_ENT:
-        case C_RSFT_ENT:
-        case KC_TAB: return MG_THE;
         case KC_C:
         case KC_P:
         case KC_D:
@@ -184,9 +182,9 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
                 return MG_SP_BUT;
             }
         case KC_EQL:
-        case C_GUI_EQL:
+        case C_RCTL_MINS:
         case KC_MINS: return KC_RABK;
-        case KC_Q: return MG_UESTION;
+        case KC_Q: return MG_MLATIV;
         case KC_H: return MG_OA;
         case KC_I: return MG_ON;
         case KC_N: return MG_ION;
@@ -200,7 +198,74 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case KC_1 ... KC_0: return KC_DOT;
     }
 
-    return XXXXXXX;
+    return MG_THE;
+}
+
+bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
+    switch (prev_keycode) {
+        case KC_B:
+            SEND_STRING("ecome");
+            return false;
+        case KC_U:
+            SEND_STRING("pgrade");
+            return false;
+        case KC_P:
+            SEND_STRING("sych");
+            return false;
+        case KC_I:
+            SEND_STRING("'ll");
+            return false;
+        case KC_DOT:
+            SEND_STRING("org");
+            return false;
+        case KC_COMM:
+            SEND_STRING(" however");
+            return false;
+        default:
+            SEND_STRING("'s");
+            return false;
+    }
+}
+
+bool process_magic_key_3(uint16_t prev_keycode, uint8_t prev_mods) {
+    switch (prev_keycode) {
+        case KC_B:
+            SEND_STRING("etween");
+            return false;
+        case KC_U:
+            SEND_STRING("pdate");
+            return false;
+        case KC_A:
+            SEND_STRING("bout");
+            return false;
+        case KC_W:
+            SEND_STRING("orld");
+            return false;
+        case KC_P:
+            SEND_STRING("rogram");
+            return false;
+        case KC_Q:
+            SEND_STRING("uestion");
+            return false;
+        case KC_S:
+            SEND_STRING("chool");
+            return false;
+        case KC_T:
+            SEND_STRING("hrough");
+            return false;
+        case KC_I:
+            SEND_STRING("'m");
+            return false;
+        case KC_DOT:
+            SEND_STRING("com");
+            return false;
+        case KC_COMM:
+            SEND_STRING(" since");
+            return false;
+        default:
+            SEND_STRING("'t");
+            return false;
+    }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -211,6 +276,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
         switch (keycode) {
+            case C_MAG_2:
+                return process_magic_key_2(get_repeat_key_keycode(), get_repeat_key_mods());
+            case C_MAG_3:
+                return process_magic_key_3(get_repeat_key_keycode(), get_repeat_key_mods());
             case MK_DUND:
                 SEND_STRING(SS_LSFT(SS_TAP(X_4)) SS_DELAY(100) SS_LSFT(SS_TAP(X_MINUS)));
                 return false;
@@ -254,8 +323,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case MG_HICH:
                 SEND_STRING("hich");
                 return false;
-            case MG_UESTION:
-                SEND_STRING("uestion");
+            case MG_MLATIV:
+                SEND_STRING("mlativ");
                 return false;
         }
 
@@ -275,8 +344,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     SEND_STRING("ng");
                     return false;
                 case KC_DOT:
+                case KC_QUES:
+                case KC_EXLM:
+                case KC_COLN:
+                case KC_SCLN:
                     unregister_weak_mods(MOD_MASK_CSAG);
-                    SEND_STRING("org");
+                    send_char(' ');
+                    add_oneshot_mods(MOD_MASK_SHIFT);
+                    set_repeat_key_keycode(KC_SPC);
                     return false;
                 case KC_COMM:
                     unregister_weak_mods(MOD_MASK_CSAG);
