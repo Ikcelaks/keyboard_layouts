@@ -49,6 +49,7 @@ enum custom_keycodes {
   MG_EFORE,
   MG_HICH,
   MG_MLATIV,
+  MG_QUOT_S,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -89,17 +90,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM combo_LB_IM[] = { KC_J, KC_G, COMBO_END};
 const uint16_t PROGMEM combo_LB_MR[] = { KC_K, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_LB_RP[] = { KC_X, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_LB_IR[] = { KC_K, KC_G, COMBO_END};
 const uint16_t PROGMEM combo_RB_IM[] = { KC_H, KC_QUOT, COMBO_END};
 const uint16_t PROGMEM combo_RB_MR[] = { KC_QUOT, KC_QUES, COMBO_END};
 const uint16_t PROGMEM combo_RB_RP[] = { KC_QUES, KC_DOT, COMBO_END};
+const uint16_t PROGMEM combo_RB_IR[] = { KC_H, KC_QUES, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo_LB_IM, KC_COLN),
     COMBO(combo_LB_MR, C_MAG_2),
     COMBO(combo_LB_RP, C_MAG_3),
+    COMBO(combo_LB_IR, MG_QUOT_S),
     COMBO(combo_RB_IM, KC_SCLN),
     COMBO(combo_RB_MR, C_MAG_2),
     COMBO(combo_RB_RP, C_MAG_3),
+    COMBO(combo_RB_IR, MG_QUOT_S),
 };
 
 extern rgb_config_t rgb_matrix_config;
@@ -108,46 +113,17 @@ void keyboard_post_init_user(void) {
   rgb_matrix_enable();
 }
 
-bool get_repeat_key_eligible(uint16_t keycode, keyrecord_t* record) {
+bool get_repeat_key_eligible_user(uint16_t keycode, keyrecord_t* record, uint8_t* remembered_mods) {
     switch (keycode) {
         // Ignore Custom Magic Keys
         case C_MAG_2:
         case C_MAG_3:
-        // Ignore MO, TO, TG, and TT layer switch keys.
-        case QK_MOMENTARY ... QK_MOMENTARY_MAX:
-        case QK_TO ... QK_TO_MAX:
-        case QK_TOGGLE_LAYER ... QK_TOGGLE_LAYER_MAX:
-        case QK_LAYER_TAP_TOGGLE ... QK_LAYER_TAP_TOGGLE_MAX:
-        // Ignore mod keys.
-        case KC_LCTL ... KC_RGUI:
-        case KC_HYPR:
-        case KC_MEH:
-            // Ignore one-shot keys.
-#ifndef NO_ACTION_ONESHOT
-        case QK_ONE_SHOT_LAYER ... QK_ONE_SHOT_LAYER_MAX:
-        case QK_ONE_SHOT_MOD ... QK_ONE_SHOT_MOD_MAX:
-#endif // NO_ACTION_ONESHOT
             return false;
-
-            // Ignore hold events on tap-hold keys.
-#ifndef NO_ACTION_TAPPING
-        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
-#    ifndef NO_ACTION_LAYER
-        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-#    endif // NO_ACTION_LAYER
-            if (record->tap.count == 0) {
-                return false;
+        case KC_A ... KC_Z:
+            if ((*remembered_mods & ~(MOD_MASK_SHIFT)) == 0) {
+                *remembered_mods &= ~MOD_MASK_SHIFT;
             }
             break;
-#endif // NO_ACTION_TAPPING
-
-#ifdef SWAP_HANDS_ENABLE
-        case QK_SWAP_HANDS ... QK_SWAP_HANDS_MAX:
-            if (IS_SWAP_HANDS_KEYCODE(keycode) || record->tap.count == 0) {
-                return false;
-            }
-            break;
-#endif // SWAP_HANDS_ENABLE
     }
 
     return true;
@@ -206,14 +182,50 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
         case KC_B:
             SEND_STRING("ecome");
             return false;
+        case KC_F:
+            SEND_STRING("ollow");
+            return false;
+        case KC_N:
+            SEND_STRING("umber");
+            return false;
+        case KC_H:
+            SEND_STRING("owever");
+            return false;
         case KC_U:
             SEND_STRING("pgrade");
+            return false;
+        case KC_A:
+            SEND_STRING("nother");
             return false;
         case KC_P:
             SEND_STRING("sych");
             return false;
         case KC_I:
             SEND_STRING("'ll");
+            return false;
+        case KC_K:
+            SEND_STRING("now");
+            return false;
+        case KC_L:
+            SEND_STRING("ittle");
+            return false;
+        case KC_R:
+            SEND_STRING("ight");
+            return false;
+        case KC_J:
+            SEND_STRING("udge");
+            return false;
+        case KC_C:
+            SEND_STRING("ould");
+            return false;
+        case KC_D:
+            SEND_STRING("evelop");
+            return false;
+        case KC_G:
+            SEND_STRING("eneral");
+            return false;
+        case KC_S:
+            SEND_STRING("hould");
             return false;
         case KC_DOT:
             SEND_STRING("org");
@@ -240,6 +252,9 @@ bool process_magic_key_3(uint16_t prev_keycode, uint8_t prev_mods) {
             return false;
         case KC_W:
             SEND_STRING("orld");
+            return false;
+        case KC_G:
+            SEND_STRING("overn");
             return false;
         case KC_P:
             SEND_STRING("rogram");
@@ -325,6 +340,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             case MG_MLATIV:
                 SEND_STRING("mlativ");
+                return false;
+            case MG_QUOT_S:
+                SEND_STRING("'s");
                 return false;
         }
 
