@@ -92,7 +92,8 @@ would be great if I could replace the useless `Z` key with a key that would be e
 needed. When I noticed that the same spot also provided fixes for "UE", "EU", and "OA", I got very excited.
 
 Serendipitously, there are several characteristics of STRD1 that make it very well suited for having a `magic` key on the
-vowel side index... TODO
+vowel side index. Most critically, this finger begins with fairly low usage and very low movement when compared to the 
+vowel index in a typical layout (The weighted finger movement as measured by Oxeylyzer is only 0.661). 
 
 ## Metrics
 

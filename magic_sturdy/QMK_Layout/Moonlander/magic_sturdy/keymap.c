@@ -209,6 +209,7 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
         case KC_L:
             SEND_STRING("ittle");
             return false;
+        case KC_M:
         case KC_R:
             SEND_STRING("ight");
             return false;
