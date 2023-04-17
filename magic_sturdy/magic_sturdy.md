@@ -3,8 +3,8 @@
 ```
 V M L C P "        | B ^ U O , \
 S T R D Y Q        $ F N E A I =
-X K J G W            Z H - / .
-        ⎵ ⇥     ' @ ⇧
+X K J G W            Z H ' ? .
+        ⎵ ⇥     / @ ⇧
 ```
 `^` is the `magic` key, and `@` is the `repeat` key.
 
