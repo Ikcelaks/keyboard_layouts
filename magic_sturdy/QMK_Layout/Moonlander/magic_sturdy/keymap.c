@@ -24,6 +24,7 @@
 #define C_RSFT_ENT RSFT_T(KC_ENT)
 #define C_LALT_ENT LALT_T(KC_ENT)
 #define C_RCTL_MINS RCTL_T(KC_MINS)
+#define C_LCTL_BSPC LCTL(KC_BSPC)
 
 enum layers {
     BASE,
@@ -55,11 +56,11 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[BASE] = LAYOUT_moonlander(
         KC_DOT,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_EQL,                                         KC_ASTR,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPC,
-        KC_DEL,         KC_V,           KC_M,           KC_L,           KC_C,           KC_P,           KC_DQUO,                                        KC_PIPE,        KC_B,           C_MAGIC,        KC_U,           KC_O,           KC_COMM,        KC_BSLS,
+        KC_TAB,         KC_V,           KC_M,           KC_L,           KC_C,           KC_P,           KC_DQUO,                                        KC_PIPE,        KC_B,           C_MAGIC,        KC_U,           KC_O,           KC_COMM,        KC_BSLS,
         LCTL(KC_BSPC),  KC_S,           KC_T,           KC_R,           KC_D,           KC_Y,           KC_Q,                                           KC_DLR,         KC_F,           KC_N,           KC_E,           KC_A,           KC_I,           C_RCTL_MINS,
         KC_LSFT,        KC_X,           KC_K,           KC_J,           KC_G,           KC_W,                                                                           KC_Z,           KC_H,           KC_QUOT,        KC_QUES,        KC_DOT,         C_RSFT_ENT,
         LT(SYMB,KC_GRV), KC_LCTL,       KC_LGUI,        KC_ESC,         TT(NAVI),                       C_LALT_ENT,                                     C_GUI_ESC,                     C_S_T(KC_SLSH),  KC_LALT,        KC_LBRC,        TT(MDIA),       TT(SYMB),
-                                                                        KC_SPC,         KC_TAB,         KC_BSPC,                                        OSL(SYMB),      OSM(MOD_LSFT),      QK_REP
+                                                                        KC_SPC,         KC_BSPC,        KC_DEL,                                         OSL(SYMB),      OSM(MOD_LSFT),      QK_REP
     ),
 	[SYMB] = LAYOUT_moonlander(
         _______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, _______, _______, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11,
@@ -87,6 +88,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+const uint16_t PROGMEM combo_LTEST_12[] = { KC_1, KC_2, COMBO_END};
+const uint16_t PROGMEM combo_RT_12[] = { QK_REP, OSM(MOD_LSFT), COMBO_END};
 const uint16_t PROGMEM combo_LB_IM[] = { KC_J, KC_G, COMBO_END};
 const uint16_t PROGMEM combo_LB_MR[] = { KC_K, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_LB_RP[] = { KC_X, KC_K, COMBO_END};
@@ -97,6 +100,8 @@ const uint16_t PROGMEM combo_RB_RP[] = { KC_QUES, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_RB_IR[] = { KC_H, KC_QUES, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
+    COMBO(combo_LTEST_12, OSL(SYMB)),
+    COMBO(combo_RT_12, KC_E),
     COMBO(combo_LB_IM, KC_COLN),
     COMBO(combo_LB_MR, C_MAG_2),
     COMBO(combo_LB_RP, C_MAG_3),
@@ -186,7 +191,7 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
             SEND_STRING("ollow");
             return false;
         case KC_N:
-            SEND_STRING("umber");
+            SEND_STRING("eighbor");
             return false;
         case KC_H:
             SEND_STRING("owever");
@@ -194,8 +199,11 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
         case KC_U:
             SEND_STRING("pgrade");
             return false;
+        case KC_O:
+            SEND_STRING("ther");
+            return false;
         case KC_A:
-            SEND_STRING("nother");
+            SEND_STRING("lready");
             return false;
         case KC_P:
             SEND_STRING("sych");
@@ -205,6 +213,9 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
             return false;
         case KC_K:
             SEND_STRING("now");
+            return false;
+        case KC_T:
+            SEND_STRING("hough");
             return false;
         case KC_L:
             SEND_STRING("ittle");
@@ -225,6 +236,9 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
         case KC_G:
             SEND_STRING("eneral");
             return false;
+        case KC_W:
+            SEND_STRING("here");
+            return false;
         case KC_S:
             SEND_STRING("hould");
             return false;
@@ -235,7 +249,7 @@ bool process_magic_key_2(uint16_t prev_keycode, uint8_t prev_mods) {
             SEND_STRING(" however");
             return false;
         default:
-            SEND_STRING("'s");
+            SEND_STRING("'ll");
             return false;
     }
 }
@@ -244,6 +258,9 @@ bool process_magic_key_3(uint16_t prev_keycode, uint8_t prev_mods) {
     switch (prev_keycode) {
         case KC_B:
             SEND_STRING("etween");
+            return false;
+        case KC_N:
+            SEND_STRING("umber");
             return false;
         case KC_U:
             SEND_STRING("pdate");
@@ -263,14 +280,26 @@ bool process_magic_key_3(uint16_t prev_keycode, uint8_t prev_mods) {
         case KC_Q:
             SEND_STRING("uestion");
             return false;
+        case KC_C:
+            SEND_STRING("rowd");
+            return false;
         case KC_S:
             SEND_STRING("chool");
             return false;
         case KC_T:
             SEND_STRING("hrough");
             return false;
+        case KC_M:
+            SEND_STRING("anage");
+            return false;
+        case KC_O:
+            SEND_STRING("xygen");
+            return false;
         case KC_I:
             SEND_STRING("'m");
+            return false;
+        case KC_E:
+            SEND_STRING("'re");
             return false;
         case KC_DOT:
             SEND_STRING("com");
@@ -279,7 +308,6 @@ bool process_magic_key_3(uint16_t prev_keycode, uint8_t prev_mods) {
             SEND_STRING(" since");
             return false;
         default:
-            SEND_STRING("'t");
             return false;
     }
 }
@@ -349,6 +377,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         if (rep_count > 0) {
             switch (keycode) {
+                case KC_BSPC:
+                case C_LCTL_BSPC:
                 case KC_DQUO:
                 case KC_LPRN:
                 case KC_SPC:

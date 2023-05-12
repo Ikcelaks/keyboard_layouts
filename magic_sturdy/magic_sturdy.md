@@ -2,7 +2,7 @@
 
 ```
 V M L C P "        | B ^ U O , \
-S T R D Y Q        $ F N E A I =
+S T R D Y Q        $ F N E A I -
 X K J G W            Z H ' ? .
         ⎵ ⇥     / @ ⇧
 ```
