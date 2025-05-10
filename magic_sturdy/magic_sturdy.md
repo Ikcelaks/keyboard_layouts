@@ -96,5 +96,66 @@ vowel side index. Most critically, this finger begins with fairly low usage and 
 vowel index in a typical layout (The weighted finger movement as measured by Oxeylyzer is only 0.661). 
 
 ## Metrics
+The following stats are from [Mana](https://github.com/Zakkkk/mana). These stats are for the Magic Sturdy variant without any briefs, as in only the bigram rules. The stats are for monkeyracer (Monkeytype + Typeracer quotes) and e200 (the default Monkeytype word list of the most popular 200 words).
 
-TODO
+monkeyracer:
+```
+MagicSturdy | monkeyracer
+  v m l c p "  | b * u o , \
+  s t r d y q  $ f n e a i -
+  x q j g w ~  ~ z h ' ? .
+
+Magic rules: ao cy dy eu gy lk oa py rl sk ue yp
+
+Handbalance: 42.713% / 57.287%
+
+Alt: 34.494%
+Rolls (Total): 51.477%
+  Inroll: 23.152%
+  Outroll: 26.432%
+  In3roll: 1.096%
+  Out3roll: 0.797%
+Redirect (+sfs): 6.167%
+  Redirect (Weak) (+sfs): 0.33%
+
+┌────────────────┬──────────┬────────────┬─────────────┐
+│                │  bigram  │  skipgram  │  skipgram2  │
+├────────────────┼──────────┼────────────┼─────────────┤
+│  same finger   │  0.453%  │  5.788%    │  8.431%     │
+│  repeat        │  2.861%  │  3.192%    │  --         │
+│  stretch       │  2.976%  │  3.202%    │  3.145%     │
+│  half scissor  │  2.758%  │  3.886%    │  3.468%     │
+│  full scissor  │  0.198%  │  0.896%    │  0.852%     │
+└────────────────┴──────────┴────────────┴─────────────┘
+```
+
+e200:
+```
+MagicSturdy | e200
+  v m l c p "  | b * u o , \
+  s t r d y q  $ f n e a i -
+  x q j g w ~  ~ z h ' ? .
+
+Magic rules: ao cy dy eu gy lk oa py rl sk ue yp
+
+Handbalance: 44.63% / 55.37%
+
+Alt: 36.384%
+Rolls (Total): 50.572%
+  Inroll: 22.426%
+  Outroll: 27.46%
+  In3roll: 0.458%
+  Out3roll: 0.229%
+Redirect (+sfs): 6.178%
+  Redirect (Weak) (+sfs): 0.229%
+
+┌────────────────┬──────────┬────────────┬─────────────┐
+│                │  bigram  │  skipgram  │  skipgram2  │
+├────────────────┼──────────┼────────────┼─────────────┤
+│  same finger   │  0%      │  5.034%    │  7.605%     │
+│  repeat        │  3.307%  │  3.661%    │  --         │
+│  stretch       │  3.78%   │  3.89%     │  4.183%     │
+│  half scissor  │  2.205%  │  2.746%    │  1.901%     │
+│  full scissor  │  0%      │  0%        │  0%         │
+└────────────────┴──────────┴────────────┴─────────────┘
+```
