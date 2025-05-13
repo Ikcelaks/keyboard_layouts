@@ -101,61 +101,61 @@ The following stats are from [Mana](https://github.com/Zakkkk/mana). These stats
 monkeyracer:
 ```
 MagicSturdy | monkeyracer
-  v m l c p "  | b * u o , \
-  s t r d y q  $ f n e a i -
-  x q j g w ~  ~ z h ' ? .
+  v m l c p " | b * u o , \
+  s t r d y q $ f n e a i -
+  x k j g w ~ ~ z h ' ? .
 
-Magic rules: ao cy dy eu gy lk oa py rl sk ue yp
+Magic rules: ao cy dy eu gy lk oa py rl sk ue yp ks tm
 
-Handbalance: 42.713% / 57.287%
+Handbalance: 43.12% / 56.88%
 
-Alt: 34.494%
-Rolls (Total): 51.477%
-  Inroll: 23.152%
-  Outroll: 26.432%
-  In3roll: 1.096%
-  Out3roll: 0.797%
-Redirect (+sfs): 6.167%
-  Redirect (Weak) (+sfs): 0.33%
+Alt: 34.813%
+Rolls (Total): 51.356%
+  Inroll: 22.87%
+  Outroll: 26.638%
+  In3roll: 1.073%
+  Out3roll: 0.775%
+Redirect (+sfs): 6.029%
+  Redirect (Weak) (+sfs): 0.322%
 
 ┌────────────────┬──────────┬────────────┬─────────────┐
 │                │  bigram  │  skipgram  │  skipgram2  │
 ├────────────────┼──────────┼────────────┼─────────────┤
-│  same finger   │  0.453%  │  5.788%    │  8.431%     │
-│  repeat        │  2.861%  │  3.192%    │  --         │
-│  stretch       │  2.976%  │  3.202%    │  3.145%     │
-│  half scissor  │  2.758%  │  3.886%    │  3.468%     │
-│  full scissor  │  0.198%  │  0.896%    │  0.852%     │
+│  same finger   │  0.439%  │  5.899%    │  8.353%     │
+│  repeat        │  2.812%  │  3.113%    │  --         │
+│  stretch       │  2.919%  │  3.11%     │  3.045%     │
+│  half scissor  │  2.726%  │  3.943%    │  3.698%     │
+│  full scissor  │  0.393%  │  1.106%    │  1.214%     │
 └────────────────┴──────────┴────────────┴─────────────┘
 ```
 
 e200:
 ```
 MagicSturdy | e200
-  v m l c p "  | b * u o , \
-  s t r d y q  $ f n e a i -
-  x q j g w ~  ~ z h ' ? .
+  v m l c p " | b * u o , \
+  s t r d y q $ f n e a i -
+  x k j g w ~ ~ z h ' ? .
 
-Magic rules: ao cy dy eu gy lk oa py rl sk ue yp
+Magic rules: ao cy dy eu gy lk oa py rl sk ue yp ks tm
 
-Handbalance: 44.63% / 55.37%
+Handbalance: 45.218% / 54.782%
 
-Alt: 36.384%
-Rolls (Total): 50.572%
-  Inroll: 22.426%
-  Outroll: 27.46%
-  In3roll: 0.458%
-  Out3roll: 0.229%
-Redirect (+sfs): 6.178%
-  Redirect (Weak) (+sfs): 0.229%
+Alt: 36.748%
+Rolls (Total): 50.111%
+  Inroll: 22.049%
+  Outroll: 27.394%
+  In3roll: 0.445%
+  Out3roll: 0.223%
+Redirect (+sfs): 6.013%
+  Redirect (Weak) (+sfs): 0.223%
 
 ┌────────────────┬──────────┬────────────┬─────────────┐
 │                │  bigram  │  skipgram  │  skipgram2  │
 ├────────────────┼──────────┼────────────┼─────────────┤
-│  same finger   │  0%      │  5.034%    │  7.605%     │
-│  repeat        │  3.307%  │  3.661%    │  --         │
-│  stretch       │  3.78%   │  3.89%     │  4.183%     │
-│  half scissor  │  2.205%  │  2.746%    │  1.901%     │
-│  full scissor  │  0%      │  0%        │  0%         │
+│  same finger   │  0%      │  5.345%    │  7.435%     │
+│  repeat        │  3.246%  │  3.563%    │  --         │
+│  stretch       │  3.709%  │  3.786%    │  4.089%     │
+│  half scissor  │  2.164%  │  2.673%    │  1.859%     │
+│  full scissor  │  0.155%  │  0.223%    │  0.743%     │
 └────────────────┴──────────┴────────────┴─────────────┘
 ```
