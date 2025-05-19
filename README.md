@@ -1,5 +1,8 @@
 # Keyboard Layouts
 
+## IMPORTANT NOTE
+I have moved on to a much more sophisticated implementation of Magic Sturdy, which allows richer rules depending on arbitrary long input sequences. That implementation relies on a library I co-wrote called QMK Sequence Transform. There is very little documentation on using Sequence Transform, and I don't have time to support it, but it can be found in my repositories. The information in this repository remains AS IS for historical reasons.
+
 ## General Information
 
 I don't create original layouts. Instead, I modify existing layouts to incorporate a dynamically defined
